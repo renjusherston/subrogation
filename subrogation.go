@@ -195,7 +195,7 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 		var klaim Claim
 		json.Unmarshal(vals, &klaim)
 
-		if klaim.claimref == klaimref {
+		if klaim.Claimref == klaimref {
 			keys = append(keys, klaim)
 		}
 	}
@@ -245,7 +245,7 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 		var priliminary Priliminary
 		json.Unmarshal(vals, &priliminary)
 
-		if priliminary.claimref == klaimref {
+		if priliminary.Claimref == klaimref {
 			keys = append(keys, priliminary)
 		}
 
