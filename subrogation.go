@@ -281,7 +281,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 
 	err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
 
 	return nil, nil
