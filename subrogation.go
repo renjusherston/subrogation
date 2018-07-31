@@ -35,7 +35,7 @@ type Priliminary struct {
 	Claimref string `json:"claimref"`
 	Insurer  string `json:"insuarer"`
 	Adjustername  string `json:"adjustername"`
-	Insuaredname  string `json:"insuredname"`
+	Insuredname  string `json:"insuredname"`
 	Referance  string `json:"referance"`
 	Policylimits  string `json:"policylimits"`
 }
