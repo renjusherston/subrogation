@@ -304,7 +304,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 
 
 	//build the cert json string manually
-	str := `{"claimref": "` + claimref + `", "insuarer": "` + insuarer + `", "adjustername": "` + adjustername + `", "Insuaredname": "` + insuredname + `", "referance": "` + referance + `", "policylimits": "` + policylimits + `"}`
+	str := `{"claimref": "` + claimref + `", "insuarer": "` + insuarer + `", "adjustername": "` + adjustername + `", "insuredname": "` + insuredname + `", "referance": "` + referance + `", "policylimits": "` + policylimits + `"}`
 
 	err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
 	if err != nil {
