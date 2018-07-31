@@ -214,9 +214,6 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 // ============================================================================================================================
 func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var klaimref string
-	if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments.")
-	}
 
 	klaimref = strings.ToLower(args[0])
 
@@ -245,8 +242,10 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 		var priliminary Priliminary
 		json.Unmarshal(vals, &priliminary)
 
-		if priliminary.Claimref == klaimref {
-			keys = append(keys, priliminary)
+		if priliminary.Insurer != "" {
+			if priliminary.Claimref == klaimref {
+				keys = append(keys, priliminary)
+			}
 		}
 
 	}
@@ -302,11 +301,11 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 	referance := strings.ToLower(args[4])
 	policylimits := strings.ToLower(args[5])
 
-
+if insuarer != "" {
 	//build the cert json string manually
 	str := `{"claimref": "` + claimref + `", "insuarer": "` + insuarer + `", "adjustername": "` + adjustername + `", "insuredname": "` + insuredname + `", "referance": "` + referance + `", "policylimits": "` + policylimits + `"}`
-
 	err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
+}
 	if err != nil {
 		return nil, err
 	}
