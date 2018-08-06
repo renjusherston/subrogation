@@ -195,7 +195,7 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 		var klaim Claim
 		json.Unmarshal(vals, &klaim)
 
-		if klaim.Claimref == klaimref {
+		if klaim.Claimref == klaimref && klaim.Tortname != "" {
 			keys = append(keys, klaim)
 		}
 	}
@@ -275,10 +275,13 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	carrieremail := strings.ToLower(args[5])
 	claimamount := strings.ToLower(args[6])
 
+if(tortname != ""){
 	//build the cert json string manually
 	str := `{"claimref": "` + claimref + `", "tortname": "` + tortname + `", "tortinsuarer": "` + tortinsuarer + `", "accidentdate": "` + accidentdate + `", "policynumber": "` + policynumber + `", "carrieremail": "` + carrieremail + `", "claimamount": "` + claimamount + `"}`
 
 	err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
+}
+
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
