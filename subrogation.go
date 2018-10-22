@@ -153,9 +153,10 @@ func (t *Subrogationcode) getAllclaims(stub shim.ChaincodeStubInterface, args []
 
 		var klaim Claim
 		json.Unmarshal(vals, &klaim)
-		
-		if klaim.Tortname != "" {
+
+if klaim.Tortname != "" {
 		keys = append(keys, klaim)
+	}
 	}
 
 	jsonKeys, err := json.Marshal(keys)
