@@ -285,7 +285,7 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 
-	//ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+	ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 
 	claimref := strings.ToLower(args[0])
 	insuredname := strings.ToLower(args[1])
@@ -309,7 +309,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	if insuredname != "" {
 		//build the cert json string manually
 		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
-		err = stub.PutState(claimref, []byte(str)) //store cert with user name as key
+		err = stub.PutState(strconv.FormatInt(ctime,10), []byte(str)) //store cert with user name as key
 	}
 
 	if err != nil {
@@ -325,7 +325,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 
-	//ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+	ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 
 	claimref := strings.ToLower(args[0])
 	insuredname := strings.ToLower(args[1])
@@ -349,7 +349,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 	if insuredname != "" {
 		//build the cert json string manually
 		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
-		err = stub.PutState(claimref, []byte(str)) //store cert with user name as key
+		err = stub.PutState(strconv.FormatInt(ctime,10), []byte(str)) //store cert with user name as key
 	}
 	if err != nil {
 		return nil, err
