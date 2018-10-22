@@ -284,7 +284,8 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 // ============================================================================================================================
 func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
-
+	fmt.Printf("Arguments: %s", args)
+	
 	ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 
 	claimref := strings.ToLower(args[0])
