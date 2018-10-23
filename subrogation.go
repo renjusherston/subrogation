@@ -292,14 +292,12 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	tortdefendentname := args[8]
 	accidentstreet := args[9]
 	accidenttown := args[10]
-
+	fmt.Errorf("debug1. Error accessing state: %s", args[0])
 
 	if insuredname != "" {
-		//build the cert json string manually
-		//
-		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `"}`
 
-		fmt.Printf("String: %s", str)
+		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `"}`
+		fmt.Errorf("debug2. Error accessing state: %s", str)
 
 		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
 	}
