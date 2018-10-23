@@ -28,6 +28,17 @@ type Claim struct {
 	Tortcarriername      string `json:"tortcarriername"`
 	Tortcarrieraddress   string `json:"tortcarrieraddress"`
 	Tortcarrieremail     string `json:"tortcarrieremail"`
+	Dateofaccident       string `json:"dateofaccident"`
+	Tortdefendentname    string `json:"tortdefendentname"`
+	Accidentstreet       string `json:"accidentstreet"`
+	Accidenttown         string `json:"accidenttown"`
+	Accidentcounty       string `json:"accidentcounty"`
+	Accidentstate        string `json:"accidentstate"`
+	Propertydamageamount string `json:"propertydamageamount"`
+	Claimamount          string `json:"claimamount"`
+	Attorneyname         string `json:"attorneyname"`
+	Attorneyid           string `json:"attorneyid"`
+	Releaserep           string `json:"releaserep"`
 }
 
 type Priliminary struct {
@@ -169,7 +180,7 @@ func (t *Subrogationcode) getAllclaims(stub shim.ChaincodeStubInterface, args []
 		if klaim.Insuredname != "" {
 		keys = append(keys, klaim)
 	}
-	
+
 	}
 
 	jsonKeys, err := json.Marshal(keys)
@@ -290,9 +301,20 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	tortcarriername := args[4]
 	tortcarrieraddress := args[5]
 	tortcarrieremail := args[6]
+	dateofaccident := args[7]
+	tortdefendentname := args[8]
+	accidentstreet := args[9]
+	accidenttown := args[10]
+	accidentcounty := args[11]
+	accidentstate := args[12]
+	propertydamageamount := args[13]
+	claimamount := args[14]
+	attorneyname := args[15]
+	attorneyid := args[16]
+	releaserep := args[17]
 
 	if claimref != "" {
-		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `"}`
+		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
 		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str))  //store cert with user name as key
 	}
@@ -332,7 +354,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 
 	if insuredname != "" {
 		//build the cert json string manually
-		str := `{"claimref1": "` + claimref + `", "insuredname1": "` + insuredname + `", "policynumber1": "` + policynumber + `", "claimnumber1": "` + claimnumber + `", "tortcarriername1": "` + tortcarriername + `", "tortcarrieraddress1": "` + tortcarrieraddress + `", "tortcarrieremail1": "` + tortcarrieremail + `", "dateofaccident1": "` + dateofaccident + `", , "tortdefendentname1": "` + tortdefendentname + `", , "accidentstreet1": "` + accidentstreet + `", , "accidenttown1": "` + accidenttown + `", "accidentcounty1": "` + accidentcounty + `", "accidentstate1": "` + accidentstate + `", "propertydamageamount1": "` + propertydamageamount + `", "claimamount1": "` + claimamount + `", "attorneyname1": "` + attorneyname + `", "attorneyid1": "` + attorneyid + `", "releaserep1": "` + releaserep + `"}`
+		str := `{"claimref1": "` + claimref + `", "insuredname1": "` + insuredname + `", "policynumber1": "` + policynumber + `", "claimnumber1": "` + claimnumber + `", "tortcarriername1": "` + tortcarriername + `", "tortcarrieraddress1": "` + tortcarrieraddress + `", "tortcarrieremail1": "` + tortcarrieremail + `", "dateofaccident1": "` + dateofaccident + `", "tortdefendentname1": "` + tortdefendentname + `", "accidentstreet1": "` + accidentstreet + `", "accidenttown1": "` + accidenttown + `", "accidentcounty1": "` + accidentcounty + `", "accidentstate1": "` + accidentstate + `", "propertydamageamount1": "` + propertydamageamount + `", "claimamount1": "` + claimamount + `", "attorneyname1": "` + attorneyname + `", "attorneyid1": "` + attorneyid + `", "releaserep1": "` + releaserep + `"}`
 
 		fmt.Printf("String: %s", str)
 
