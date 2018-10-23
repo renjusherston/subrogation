@@ -145,6 +145,9 @@ func (t *Subrogationcode) Query(stub shim.ChaincodeStubInterface, function strin
 // ============================================================================================================================
 // Read all - read all matching variable from chaincode state
 // ============================================================================================================================
+// ============================================================================================================================
+// Read all - read all matching variable from chaincode state
+// ============================================================================================================================
 func (t *Subrogationcode) getAllclaims(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
 	keysIter, err := stub.RangeQueryState("", "")
@@ -166,9 +169,8 @@ func (t *Subrogationcode) getAllclaims(stub shim.ChaincodeStubInterface, args []
 
 		var klaim Claim
 		json.Unmarshal(vals, &klaim)
-		if klaim.Insuredname != "" {
+
 		keys = append(keys, klaim)
-	}
 	}
 
 	jsonKeys, err := json.Marshal(keys)
@@ -179,6 +181,7 @@ func (t *Subrogationcode) getAllclaims(stub shim.ChaincodeStubInterface, args []
 	return jsonKeys, nil
 
 }
+
 
 // ============================================================================================================================
 // Validate - validate a variable from chaincode state
@@ -294,19 +297,16 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	accidenttown := args[10]
 	fmt.Errorf("debug1. Error accessing state: %s", args[0])
 
-	if insuredname != "" {
-
+	if claimref != "" {
 		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `"}`
-		fmt.Errorf("debug2. Error accessing state: %s", str)
-
 		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
 	}
 
-	if err != nil {
-		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-	}
+		if err != nil {
+			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+		}
 
-	return nil, nil
+		return nil, nil
 }
 
 // ============================================================================================================================
