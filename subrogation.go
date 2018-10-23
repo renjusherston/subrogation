@@ -28,10 +28,6 @@ type Claim struct {
 	Tortcarriername      string `json:"tortcarriername"`
 	Tortcarrieraddress   string `json:"tortcarrieraddress"`
 	Tortcarrieremail     string `json:"tortcarrieremail"`
-	Dateofaccident       string `json:"dateofaccident"`
-	Tortdefendentname    string `json:"tortdefendentname"`
-	Accidentstreet       string `json:"accidentstreet"`
-	Accidenttown         string `json:"accidenttown"`
 }
 
 type Priliminary struct {
@@ -291,15 +287,11 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	tortcarriername := args[4]
 	tortcarrieraddress := args[5]
 	tortcarrieremail := args[6]
-	dateofaccident := args[7]
-	tortdefendentname := args[8]
-	accidentstreet := args[9]
-	accidenttown := args[10]
-	fmt.Errorf("debug1. Error accessing state: %s", args[0])
 
 	if claimref != "" {
-		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `"}`
-		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
+		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `"}`
+
+		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str))  //store cert with user name as key
 	}
 
 		if err != nil {
