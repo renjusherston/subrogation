@@ -28,6 +28,7 @@ type Claim struct {
 	Tortcarriername      string `json:"tortcarriername"`
 	Tortcarrieraddress   string `json:"tortcarrieraddress"`
 	Tortcarrieremail     string `json:"tortcarrieremail"`
+	/*
 	Dateofaccident       string `json:"dateofaccident"`
 	Tortdefendentname    string `json:"tortdefendentname"`
 	Accidentstreet       string `json:"accidentstreet"`
@@ -39,6 +40,7 @@ type Claim struct {
 	Attorneyname         string `json:"attorneyname"`
 	Attorneyid           string `json:"attorneyid"`
 	Releaserep           string `json:"releaserep"`
+	*/
 }
 
 type Priliminary struct {
@@ -173,8 +175,9 @@ func (t *Subrogationcode) getAllclaims(stub shim.ChaincodeStubInterface, args []
 
 		var klaim Claim
 		json.Unmarshal(vals, &klaim)
-
+		if klaim.Insuredname != "" {
 		keys = append(keys, klaim)
+	}
 	}
 
 	jsonKeys, err := json.Marshal(keys)
@@ -294,7 +297,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	tortcarriername := args[4]
 	tortcarrieraddress := args[5]
 	tortcarrieremail := args[6]
-	dateofaccident := args[7]
+	/*dateofaccident := args[7]
 	tortdefendentname := args[8]
 	accidentstreet := args[9]
 	accidenttown := args[10]
@@ -304,11 +307,12 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	claimamount := args[14]
 	attorneyname := args[15]
 	attorneyid := args[16]
-	releaserep := args[17]
+	releaserep := args[17]*/
 
 	if insuredname != "" {
 		//build the cert json string manually
-		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
+		//, "dateofaccident": "` + dateofaccident + `", , "tortdefendentname": "` + tortdefendentname + `", , "accidentstreet": "` + accidentstreet + `", , "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"
+		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `"}`
 		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
 	}
 
