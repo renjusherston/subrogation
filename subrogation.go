@@ -42,24 +42,24 @@ type Claim struct {
 }
 
 type Priliminary struct {
-	Claimref1             string `json:"claimref1"`
-	Insuredname1         string `json:"insuredname1"`
-	Policynumber1         string `json:"policynumber1"`
-	Claimnumber1          string `json:"claimnumber1"`
-	Tortcarriername1      string `json:"tortcarriername1"`
-	Tortcarrieraddress1   string `json:"tortcarrieraddress1"`
-	Tortcarrieremail1     string `json:"tortcarrieremail1"`
-	Dateofaccident1       string `json:"dateofaccident1"`
-	Tortdefendentname1    string `json:"tortdefendentname1"`
-	Accidentstreet1       string `json:"accidentstreet1"`
-	Accidenttown1         string `json:"accidenttown1"`
-	Accidentcounty1       string `json:"accidentcounty1"`
-	Accidentstate1        string `json:"accidentstate1"`
-	Propertydamageamount1 string `json:"propertydamageamount1"`
-	Claimamount1          string `json:"claimamount1"`
-	Attorneyname1         string `json:"attorneyname1"`
-	Attorneyid1           string `json:"attorneyid1"`
-	Releaserep1           string `json:"releaserep1"`
+	Claimref             string `json:"claimref1"`
+	Insuredname         string `json:"insuredname1"`
+	Policynumber         string `json:"policynumber1"`
+	Claimnumber          string `json:"claimnumber1"`
+	Tortcarriername      string `json:"tortcarriername1"`
+	Tortcarrieraddress   string `json:"tortcarrieraddress1"`
+	Tortcarrieremail     string `json:"tortcarrieremail1"`
+	Dateofaccident       string `json:"dateofaccident1"`
+	Tortdefendentname    string `json:"tortdefendentname1"`
+	Accidentstreet       string `json:"accidentstreet1"`
+	Accidenttown         string `json:"accidenttown1"`
+	Accidentcounty       string `json:"accidentcounty1"`
+	Accidentstate        string `json:"accidentstate1"`
+	Propertydamageamount string `json:"propertydamageamount1"`
+	Claimamount          string `json:"claimamount1"`
+	Attorneyname         string `json:"attorneyname1"`
+	Attorneyid           string `json:"attorneyid1"`
+	Releaserep           string `json:"releaserep1"`
 }
 
 // ============================================================================================================================
@@ -269,8 +269,8 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 		var priliminary Priliminary
 		json.Unmarshal(vals, &priliminary)
 
-		if priliminary.Insuredname1 != "" {
-			if strings.ToLower(priliminary.Claimref1) == klaimref {
+		if priliminary.Insuredname != "" {
+			if strings.ToLower(priliminary.Claimref) == klaimref {
 				keys = append(keys, priliminary)
 			}
 		}
@@ -354,7 +354,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 
 	if insuredname != "" {
 		//build the cert json string manually
-		str := `{"claimref1": "` + claimref + `", "insuredname1": "` + insuredname + `", "policynumber1": "` + policynumber + `", "claimnumber1": "` + claimnumber + `", "tortcarriername1": "` + tortcarriername + `", "tortcarrieraddress1": "` + tortcarrieraddress + `", "tortcarrieremail1": "` + tortcarrieremail + `", "dateofaccident1": "` + dateofaccident + `", "tortdefendentname1": "` + tortdefendentname + `", "accidentstreet1": "` + accidentstreet + `", "accidenttown1": "` + accidenttown + `", "accidentcounty1": "` + accidentcounty + `", "accidentstate1": "` + accidentstate + `", "propertydamageamount1": "` + propertydamageamount + `", "claimamount1": "` + claimamount + `", "attorneyname1": "` + attorneyname + `", "attorneyid1": "` + attorneyid + `", "releaserep1": "` + releaserep + `"}`
+		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
 		fmt.Printf("String: %s", str)
 
