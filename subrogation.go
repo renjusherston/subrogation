@@ -42,24 +42,24 @@ type Claim struct {
 }
 
 type Priliminary struct {
-	Claimref             string `json:"claimref1"`
-	Insuredname         string `json:"insuredname1"`
-	Policynumber         string `json:"policynumber1"`
-	Claimnumber          string `json:"claimnumber1"`
-	Tortcarriername      string `json:"tortcarriername1"`
-	Tortcarrieraddress   string `json:"tortcarrieraddress1"`
-	Tortcarrieremail     string `json:"tortcarrieremail1"`
-	Dateofaccident       string `json:"dateofaccident1"`
-	Tortdefendentname    string `json:"tortdefendentname1"`
-	Accidentstreet       string `json:"accidentstreet1"`
-	Accidenttown         string `json:"accidenttown1"`
-	Accidentcounty       string `json:"accidentcounty1"`
-	Accidentstate        string `json:"accidentstate1"`
-	Propertydamageamount string `json:"propertydamageamount1"`
-	Claimamount          string `json:"claimamount1"`
-	Attorneyname         string `json:"attorneyname1"`
-	Attorneyid           string `json:"attorneyid1"`
-	Releaserep           string `json:"releaserep1"`
+	Claimref             string `json:"claimref"`
+	Insuredname         string `json:"insuredname"`
+	Policynumber         string `json:"policynumber"`
+	Claimnumber          string `json:"claimnumber"`
+	Tortcarriername      string `json:"tortcarriername"`
+	Tortcarrieraddress   string `json:"tortcarrieraddress"`
+	Tortcarrieremail     string `json:"tortcarrieremail"`
+	Dateofaccident       string `json:"dateofaccident"`
+	Tortdefendentname    string `json:"tortdefendentname"`
+	Accidentstreet       string `json:"accidentstreet"`
+	Accidenttown         string `json:"accidenttown"`
+	Accidentcounty       string `json:"accidentcounty"`
+	Accidentstate        string `json:"accidentstate"`
+	Propertydamageamount string `json:"propertydamageamount"`
+	Claimamount          string `json:"claimamount"`
+	Attorneyname         string `json:"attorneyname"`
+	Attorneyid           string `json:"attorneyid"`
+	Releaserep           string `json:"releaserep"`
 }
 
 // ============================================================================================================================
