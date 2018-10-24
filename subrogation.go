@@ -260,7 +260,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 
 	  claimAsBytes, err1 := stub.GetState(claimref + "_claim")
 
-		if claimAsBytes != nil {
+		if claimAsBytes == nil {
 			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
 			err = stub.PutState(claimref + "_claim", []byte(str))  //store cert with user name as key
@@ -310,7 +310,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 
 	  prilimAsBytes, err1 := stub.GetState(claimref + "_priliminary")
 
-		if prilimAsBytes != nil {
+		if prilimAsBytes == nil {
 			//build the cert json string manually
 			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
