@@ -201,38 +201,12 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 
 	klaimref = strings.ToLower(args[0])
 
-	keysIter, err := stub.RangeQueryState("", "")
+	claimAsBytes, err := stub.GetState(klaimref + "_claim")
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-	}
-	defer keysIter.Close()
+}
 
-	var keys []Claim
-
-	for keysIter.HasNext() {
-		key, _, iterErr := keysIter.Next()
-		if iterErr != nil {
-			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-		}
-		vals, err := stub.GetState(key)
-		if err != nil {
-			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-		}
-
-		var klaim Claim
-		json.Unmarshal(vals, &klaim)
-
-		if strings.ToLower(klaim.Claimref) == klaimref && klaim.Insuredname != "" {
-			keys = append(keys, klaim)
-		}
-	}
-
-	jsonKeys, err := json.Marshal(keys)
-	if err != nil {
-		return nil, fmt.Errorf("keys operation failed. Error marshaling JSON: %s", err)
-	}
-
-	return jsonKeys, nil
+	return claimAsBytes, nil
 
 }
 
@@ -241,48 +215,18 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 // ============================================================================================================================
 func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var klaimref string
-
 	klaimref = strings.ToLower(args[0])
 
 	if klaimref == "" {
 		return nil, errors.New("Referance is missing")
 	}
 
-	keysIter, err := stub.RangeQueryState("", "")
+	prilmAsBytes, err := stub.GetState(klaimref + "_priliminary")
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-	}
-	defer keysIter.Close()
+}
 
-	var keys []Priliminary
-
-	for keysIter.HasNext() {
-		key, _, iterErr := keysIter.Next()
-		if iterErr != nil {
-			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-		}
-		vals, err := stub.GetState(key)
-		if err != nil {
-			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-		}
-
-		var priliminary Priliminary
-		json.Unmarshal(vals, &priliminary)
-
-		if priliminary.Insuredname != "" {
-			if strings.ToLower(priliminary.Claimref) == klaimref {
-				keys = append(keys, priliminary)
-			}
-		}
-
-	}
-
-	jsonKeys, err := json.Marshal(keys)
-	if err != nil {
-		return nil, fmt.Errorf("keys operation failed. Error marshaling JSON: %s", err)
-	}
-
-	return jsonKeys, nil
+	return prilmAsBytes, nil
 
 }
 
@@ -292,47 +236,7 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 
-	ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
-
-	claimref := args[0]
-	insuredname := args[1]
-	policynumber := args[2]
-	claimnumber := args[3]
-	tortcarriername := args[4]
-	tortcarrieraddress := args[5]
-	tortcarrieremail := args[6]
-	dateofaccident := args[7]
-	tortdefendentname := args[8]
-	accidentstreet := args[9]
-	accidenttown := args[10]
-	accidentcounty := args[11]
-	accidentstate := args[12]
-	propertydamageamount := args[13]
-	claimamount := args[14]
-	attorneyname := args[15]
-	attorneyid := args[16]
-	releaserep := args[17]
-
-	if claimref != "" {
-		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
-
-		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str))  //store cert with user name as key
-	}
-
-		if err != nil {
-			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-		}
-
-		return nil, nil
-}
-
-// ============================================================================================================================
-// Init priliminaries - create a priliminary entry, store into chaincode state
-// ============================================================================================================================
-func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
-
-	ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+	//ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 	claimref := args[0]
 	insuredname := args[1]
 	policynumber := args[2]
@@ -353,13 +257,72 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 	releaserep := args[17]
 
 	if insuredname != "" {
-		//build the cert json string manually
-		str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
-		fmt.Printf("String: %s", str)
+	  claimAsBytes, err1 := stub.GetState(claimref + "_claim")
 
-		err = stub.PutState(strconv.FormatInt(ctime, 10), []byte(str)) //store cert with user name as key
+		if claimAsBytes != nil {
+			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
+
+			err = stub.PutState(claimref + "_claim", []byte(str))  //store cert with user name as key
+
+			if err1 != nil {
+				return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+			}
+		}
+
+
 	}
+
+		if err != nil {
+			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+		}
+
+		return nil, nil
+}
+
+// ============================================================================================================================
+// Init priliminaries - create a priliminary entry, store into chaincode state
+// ============================================================================================================================
+func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var err error
+
+	//ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+	claimref := args[0]
+	insuredname := args[1]
+	policynumber := args[2]
+	claimnumber := args[3]
+	tortcarriername := args[4]
+	tortcarrieraddress := args[5]
+	tortcarrieremail := args[6]
+	dateofaccident := args[7]
+	tortdefendentname := args[8]
+	accidentstreet := args[9]
+	accidenttown := args[10]
+	accidentcounty := args[11]
+	accidentstate := args[12]
+	propertydamageamount := args[13]
+	claimamount := args[14]
+	attorneyname := args[15]
+	attorneyid := args[16]
+	releaserep := args[17]
+
+	if insuredname != "" {
+
+	  prilimAsBytes, err1 := stub.GetState(claimref + "_priliminary")
+
+		if prilimAsBytes != nil {
+			//build the cert json string manually
+			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
+
+			err = stub.PutState(claimref+"_priliminary", []byte(str)) //store cert with user name as key
+
+			if err1 != nil {
+				return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+			}
+		}
+	}
+
+
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
