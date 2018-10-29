@@ -206,10 +206,8 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
 
-	var klaim Claim
-	json.Unmarshal(claimAsBytes, &klaim)
 
-  jsonKeys, err := json.Marshal(klaim)
+  jsonKeys, err := json.Marshal(claimAsBytes)
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error marshaling JSON: %s", err)
 	}
