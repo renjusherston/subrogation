@@ -202,18 +202,11 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 	klaimref = strings.ToLower(args[0])
 
 	claimAsBytes, err := stub.GetState(klaimref + "_claim")
-	s, _ := strconv.Unquote(string(claimAsBytes))
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-	}
+}
 
-
-	jsonKeys, err := json.Marshal(s)
-	if err != nil {
-		return nil, fmt.Errorf("keys operation failed. Error marshaling JSON: %s", err)
-	}
-
-	return jsonKeys, nil
+	return claimAsBytes, nil
 
 }
 
@@ -270,7 +263,6 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 		if claimAsBytes == nil {
 			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
-			fmt.Printf(str)
 			err = stub.PutState(claimref + "_claim", []byte(str))  //store cert with user name as key
 
 			if err1 != nil {
