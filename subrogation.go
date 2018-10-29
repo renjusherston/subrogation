@@ -206,9 +206,11 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
 
+	fmt.Printf("step1------------>" + string(claimAsBytes))
+
 	unq, _ := strconv.Unquote(string(claimAsBytes))
 
-	fmt.Printf(unq)
+	fmt.Printf("step2------------>" + unq)
 
 	out := []byte(unq)
 	if err != nil {
