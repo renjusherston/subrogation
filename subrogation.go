@@ -295,9 +295,9 @@ return resp, nil
 // Init claim - create a new claim, store into chaincode state
 // ============================================================================================================================
 func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
 
-	//ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+
+	fmt.Println(args);
 	claimref := args[0]
 	insuredname := args[1]
 	policynumber := args[2]
@@ -318,12 +318,10 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	releaserep := args[17]
 
 	if insuredname != "" {
-
-	  claimAsBytes, err1 := stub.GetState(claimref + "_claim")
-		if err1 != nil {
+	  claimAsBytes, err := stub.GetState(claimref + "_claim")
+		if err != nil {
 			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 		}
-
 		if claimAsBytes == nil {
 			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
 
@@ -333,13 +331,8 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 			if err != nil {
 				return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 			}
-
 		}
-
-
 	}
-
-
 
 		return nil, nil
 }
