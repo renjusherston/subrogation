@@ -206,7 +206,38 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
-	return claimAsBytes, nil
+	var klaim Claim
+	json.Unmarshal(claimAsBytes, &klaim)
+
+	re := regexp.MustCompile(`\r?\n`)
+	claimdata := Claim {
+		Claimref      : klaim.Claimref,
+		Insuredname    : klaim.Insuredname,
+		Policynumber    : klaim.Policynumber,
+		Claimnumber     : klaim.Claimnumber,
+		Tortcarriername  : klaim.Tortcarriername,
+		Tortcarrieraddress   : re.ReplaceAllString(klaim.Tortcarrieraddress, "\\n"),
+		Tortcarrieremail    : klaim.Tortcarrieremail,
+		Dateofaccident      : klaim.Dateofaccident,
+		Tortdefendentname    : klaim.Tortdefendentname,
+		Accidentstreet       : klaim.Accidentstreet,
+		Accidenttown         : klaim.Accidenttown,
+		Accidentcounty       : klaim.Accidentcounty,
+		Accidentstate        : klaim.Accidentstate,
+		Propertydamageamount : klaim.Propertydamageamount,
+		Claimamount     : klaim.Claimamount,
+		Attorneyname      : klaim.Attorneyname,
+		Attorneyid     : klaim.Attorneyid,
+		Releaserep  : klaim.Releaserep,
+}
+
+resp, err := json.Marshal(claimdata)
+if err != nil {
+    fmt.Println("error:", err)
+}
+
+
+	return resp, nil
 
 }
 
