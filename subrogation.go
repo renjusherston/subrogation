@@ -296,14 +296,12 @@ return resp, nil
 // ============================================================================================================================
 func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
-
-	fmt.Println(args);
 	claimref := args[0]
 	insuredname := args[1]
 	policynumber := args[2]
 	claimnumber := args[3]
 	tortcarriername := args[4]
-	tortcarrieraddress := args[5]
+	tortcarrieraddress := "test"
 	tortcarrieremail := args[6]
 	dateofaccident := args[7]
 	tortdefendentname := args[8]
@@ -324,8 +322,6 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 		}
 		if claimAsBytes == nil {
 			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
-
-			fmt.Printf("input===>: %s", str);
 
 			err = stub.PutState(claimref + "_claim", []byte(str))  //store cert with user name as key
 			if err != nil {
@@ -349,7 +345,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 	policynumber := args[2]
 	claimnumber := args[3]
 	tortcarriername := args[4]
-	tortcarrieraddress := args[5]
+	tortcarrieraddress := "test"
 	tortcarrieremail := args[6]
 	dateofaccident := args[7]
 	tortdefendentname := args[8]
