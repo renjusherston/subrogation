@@ -11,7 +11,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"regexp"
 )
 
 // Subrogationcode klaim registration chaincode
@@ -209,14 +208,14 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 	var klaim Claim
 	json.Unmarshal(claimAsBytes, &klaim)
 
-	re := regexp.MustCompile(`\r?\n`)
+	//re := regexp.MustCompile(`\r?\n`)
 	claimdata := Claim {
 		Claimref     : klaim.Claimref,
 		Insuredname  : klaim.Insuredname,
 		Policynumber : klaim.Policynumber,
 		Claimnumber  : klaim.Claimnumber,
 		Tortcarriername : klaim.Tortcarriername,
-		Tortcarrieraddress  : re.ReplaceAllString(klaim.Tortcarrieraddress, "\\n"),
+		Tortcarrieraddress  : klaim.Tortcarrieraddress,
 		Tortcarrieremail  : klaim.Tortcarrieremail,
 		Dateofaccident    : klaim.Dateofaccident,
 		Tortdefendentname : klaim.Tortdefendentname,
@@ -259,7 +258,7 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 var priliminary Priliminary
 json.Unmarshal(prilmAsBytes, &priliminary)
 
-re := regexp.MustCompile(`\r?\n`)
+//re := regexp.MustCompile(`\r?\n`)
 
 prilmdata := Priliminary {
 	Claimref     : priliminary.Claimref,
@@ -267,7 +266,7 @@ prilmdata := Priliminary {
 	Policynumber : priliminary.Policynumber,
 	Claimnumber  : priliminary.Claimnumber,
 	Tortcarriername : priliminary.Tortcarriername,
-	Tortcarrieraddress  : re.ReplaceAllString(priliminary.Tortcarrieraddress, "\\n"),
+	Tortcarrieraddress  : priliminary.Tortcarrieraddress,
 	Tortcarrieremail  : priliminary.Tortcarrieremail,
 	Dateofaccident    : priliminary.Dateofaccident,
 	Tortdefendentname : priliminary.Tortdefendentname,
@@ -344,47 +343,43 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 // Init priliminaries - create a priliminary entry, store into chaincode state
 // ============================================================================================================================
 func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
 
-	//ctime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
-	claimref := args[0]
-	insuredname := args[1]
-	policynumber := args[2]
-	claimnumber := args[3]
-	tortcarriername := args[4]
-	tortcarrieraddress := args[5]
-	tortcarrieremail := args[6]
-	dateofaccident := args[7]
-	tortdefendentname := args[8]
-	accidentstreet := args[9]
-	accidenttown := args[10]
-	accidentcounty := args[11]
-	accidentstate := args[12]
-	propertydamageamount := args[13]
-	claimamount := args[14]
-	attorneyname := args[15]
-	attorneyid := args[16]
-	releaserep := args[17]
+	if args[1] != "" {
 
-	if insuredname != "" {
-
-	  prilimAsBytes, err1 := stub.GetState(claimref + "_priliminary")
+	  prilimAsBytes, err := stub.GetState(args[0] + "_priliminary")
+		if err != nil {
+			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+		}
 
 		if prilimAsBytes == nil {
-			//build the cert json string manually
-			str := `{"claimref": "` + claimref + `", "insuredname": "` + insuredname + `", "policynumber": "` + policynumber + `", "claimnumber": "` + claimnumber + `", "tortcarriername": "` + tortcarriername + `", "tortcarrieraddress": "` + tortcarrieraddress + `", "tortcarrieremail": "` + tortcarrieremail + `", "dateofaccident": "` + dateofaccident + `", "tortdefendentname": "` + tortdefendentname + `", "accidentstreet": "` + accidentstreet + `", "accidenttown": "` + accidenttown + `", "accidentcounty": "` + accidentcounty + `", "accidentstate": "` + accidentstate + `", "propertydamageamount": "` + propertydamageamount + `", "claimamount": "` + claimamount + `", "attorneyname": "` + attorneyname + `", "attorneyid": "` + attorneyid + `", "releaserep": "` + releaserep + `"}`
-
-			err = stub.PutState(claimref+"_priliminary", []byte(str)) //store cert with user name as key
-
-			if err1 != nil {
-				return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-			}
+			str := Priliminary {
+				Claimref     : args[0],
+				Insuredname  : args[1],
+				Policynumber : args[2],
+				Claimnumber  : args[3],
+				Tortcarriername : args[4],
+				Tortcarrieraddress  : args[5],
+				Tortcarrieremail  : args[6],
+				Dateofaccident    : args[7],
+				Tortdefendentname : args[8],
+				Accidentstreet    : args[9],
+				Accidenttown      : args[10],
+				Accidentcounty    : args[11],
+				Accidentstate     : args[12],
+				Propertydamageamount : args[13],
+				Claimamount  : args[14],
+				Attorneyname      : args[15],
+				Attorneyid : args[16],
+				Releaserep : args[17],
 		}
-	}
+		resp, err := json.Marshal(str)
+		if err != nil {
+			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+		}
 
-
-	if err != nil {
-		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+		err = stub.PutState(args[0]+"_priliminary", resp) //store cert with user name as key
+		return nil, nil
+		}
 	}
 
 	return nil, nil
