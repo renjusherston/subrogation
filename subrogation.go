@@ -211,24 +211,24 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 
 	re := regexp.MustCompile(`\r?\n`)
 	claimdata := Claim {
-		Claimref      : klaim.Claimref,
-		Insuredname    : klaim.Insuredname,
-		Policynumber    : klaim.Policynumber,
-		Claimnumber     : klaim.Claimnumber,
-		Tortcarriername  : klaim.Tortcarriername,
-		Tortcarrieraddress   : re.ReplaceAllString(klaim.Tortcarrieraddress, "\\n"),
-		Tortcarrieremail    : klaim.Tortcarrieremail,
-		Dateofaccident      : klaim.Dateofaccident,
-		Tortdefendentname    : klaim.Tortdefendentname,
-		Accidentstreet       : klaim.Accidentstreet,
-		Accidenttown         : klaim.Accidenttown,
-		Accidentcounty       : klaim.Accidentcounty,
-		Accidentstate        : klaim.Accidentstate,
+		Claimref     : klaim.Claimref,
+		Insuredname  : klaim.Insuredname,
+		Policynumber : klaim.Policynumber,
+		Claimnumber  : klaim.Claimnumber,
+		Tortcarriername : klaim.Tortcarriername,
+		Tortcarrieraddress  : re.ReplaceAllString(klaim.Tortcarrieraddress, "\\n"),
+		Tortcarrieremail  : klaim.Tortcarrieremail,
+		Dateofaccident    : klaim.Dateofaccident,
+		Tortdefendentname : klaim.Tortdefendentname,
+		Accidentstreet    : klaim.Accidentstreet,
+		Accidenttown      : klaim.Accidenttown,
+		Accidentcounty    : klaim.Accidentcounty,
+		Accidentstate     : klaim.Accidentstate,
 		Propertydamageamount : klaim.Propertydamageamount,
-		Claimamount     : klaim.Claimamount,
+		Claimamount  : klaim.Claimamount,
 		Attorneyname      : klaim.Attorneyname,
-		Attorneyid     : klaim.Attorneyid,
-		Releaserep  : klaim.Releaserep,
+		Attorneyid : klaim.Attorneyid,
+		Releaserep : klaim.Releaserep,
 }
 
 resp, err := json.Marshal(claimdata)
@@ -262,24 +262,24 @@ json.Unmarshal(prilmAsBytes, &priliminary)
 re := regexp.MustCompile(`\r?\n`)
 
 prilmdata := Priliminary {
-	Claimref      : priliminary.Claimref,
-	Insuredname    : priliminary.Insuredname,
-	Policynumber    : priliminary.Policynumber,
-	Claimnumber     : priliminary.Claimnumber,
-	Tortcarriername  : priliminary.Tortcarriername,
-	Tortcarrieraddress   : re.ReplaceAllString(priliminary.Tortcarrieraddress, "\\n"),
-	Tortcarrieremail    : priliminary.Tortcarrieremail,
-	Dateofaccident      : priliminary.Dateofaccident,
-	Tortdefendentname    : priliminary.Tortdefendentname,
-	Accidentstreet       : priliminary.Accidentstreet,
-	Accidenttown         : priliminary.Accidenttown,
-	Accidentcounty       : priliminary.Accidentcounty,
-	Accidentstate        : priliminary.Accidentstate,
+	Claimref     : priliminary.Claimref,
+	Insuredname  : priliminary.Insuredname,
+	Policynumber : priliminary.Policynumber,
+	Claimnumber  : priliminary.Claimnumber,
+	Tortcarriername : priliminary.Tortcarriername,
+	Tortcarrieraddress  : re.ReplaceAllString(priliminary.Tortcarrieraddress, "\\n"),
+	Tortcarrieremail  : priliminary.Tortcarrieremail,
+	Dateofaccident    : priliminary.Dateofaccident,
+	Tortdefendentname : priliminary.Tortdefendentname,
+	Accidentstreet    : priliminary.Accidentstreet,
+	Accidenttown      : priliminary.Accidenttown,
+	Accidentcounty    : priliminary.Accidentcounty,
+	Accidentstate     : priliminary.Accidentstate,
 	Propertydamageamount : priliminary.Propertydamageamount,
-	Claimamount     : priliminary.Claimamount,
+	Claimamount  : priliminary.Claimamount,
 	Attorneyname      : priliminary.Attorneyname,
-	Attorneyid     : priliminary.Attorneyid,
-	Releaserep  : priliminary.Releaserep,
+	Attorneyid : priliminary.Attorneyid,
+	Releaserep : priliminary.Releaserep,
 }
 
 resp, err := json.Marshal(prilmdata)
@@ -301,7 +301,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 	policynumber := args[2]
 	claimnumber := args[3]
 	tortcarriername := args[4]
-	tortcarrieraddress := "test"
+	tortcarrieraddress := args[5]
 	tortcarrieremail := args[6]
 	dateofaccident := args[7]
 	tortdefendentname := args[8]
@@ -345,7 +345,7 @@ func (t *Subrogationcode) reg_priliminaries(stub shim.ChaincodeStubInterface, ar
 	policynumber := args[2]
 	claimnumber := args[3]
 	tortcarriername := args[4]
-	tortcarrieraddress := "test"
+	tortcarrieraddress := args[5]
 	tortcarrieremail := args[6]
 	dateofaccident := args[7]
 	tortdefendentname := args[8]
