@@ -205,14 +205,37 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
+	var klaim Claim
+	json.Unmarshal(claimAsBytes, &klaim)
 
-	fmt.Errorf("sting output===================>: %s", string(claimAsBytes))
+	claimdata := Claim {
+		Claimref      : klaim.Claimref,
+		Insuredname    : klaim.Insuredname,
+		Policynumber    : klaim.Policynumber,
+		Claimnumber     : klaim.Claimnumber,
+		Tortcarriername  : klaim.Tortcarriername,
+		Tortcarrieraddress   : klaim.Tortcarrieraddress,
+		Tortcarrieremail    : klaim.Tortcarrieremail,
+		Dateofaccident      : klaim.Dateofaccident,
+		Tortdefendentname    : klaim.Tortdefendentname,
+		Accidentstreet       : klaim.Accidentstreet,
+		Accidenttown         : klaim.Accidenttown,
+		Accidentcounty       : klaim.Accidentcounty,
+		Accidentstate        : klaim.Accidentstate,
+		Propertydamageamount : klaim.Propertydamageamount,
+		Claimamount     : klaim.Claimamount,
+		Attorneyname      : klaim.Attorneyname,
+		Attorneyid     : klaim.Attorneyid,
+		Releaserep  : klaim.Releaserep,
+}
 
-	unq, _ := strconv.Unquote(string(claimAsBytes))
+resp, err := json.Marshal(claimdata)
+if err != nil {
+    fmt.Println("error:", err)
+}
 
-	fmt.Errorf("unq resp=================>: %s", unq)
 
-	return claimAsBytes, nil
+	return resp, nil
 
 }
 
@@ -231,8 +254,36 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 }
+var priliminary Priliminary
+json.Unmarshal(prilmAsBytes, &priliminary)
 
-	return prilmAsBytes, nil
+prilmdata := Priliminary {
+	Claimref      : priliminary.Claimref,
+	Insuredname    : priliminary.Insuredname,
+	Policynumber    : priliminary.Policynumber,
+	Claimnumber     : priliminary.Claimnumber,
+	Tortcarriername  : priliminary.Tortcarriername,
+	Tortcarrieraddress   : priliminary.Tortcarrieraddress,
+	Tortcarrieremail    : priliminary.Tortcarrieremail,
+	Dateofaccident      : priliminary.Dateofaccident,
+	Tortdefendentname    : priliminary.Tortdefendentname,
+	Accidentstreet       : priliminary.Accidentstreet,
+	Accidenttown         : priliminary.Accidenttown,
+	Accidentcounty       : priliminary.Accidentcounty,
+	Accidentstate        : priliminary.Accidentstate,
+	Propertydamageamount : priliminary.Propertydamageamount,
+	Claimamount     : priliminary.Claimamount,
+	Attorneyname      : priliminary.Attorneyname,
+	Attorneyid     : priliminary.Attorneyid,
+	Releaserep  : priliminary.Releaserep,
+}
+
+resp, err := json.Marshal(prilmdata)
+if err != nil {
+	fmt.Println("error:", err)
+}
+
+return resp, nil
 
 }
 
