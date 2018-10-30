@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"regexp"
 )
 
 // Subrogationcode klaim registration chaincode
@@ -208,13 +209,14 @@ func (t *Subrogationcode) getClaim(stub shim.ChaincodeStubInterface, args []stri
 	var klaim Claim
 	json.Unmarshal(claimAsBytes, &klaim)
 
+	re := regexp.MustCompile(`\r?\n`)
 	claimdata := Claim {
 		Claimref      : klaim.Claimref,
 		Insuredname    : klaim.Insuredname,
 		Policynumber    : klaim.Policynumber,
 		Claimnumber     : klaim.Claimnumber,
 		Tortcarriername  : klaim.Tortcarriername,
-		Tortcarrieraddress   : klaim.Tortcarrieraddress,
+		Tortcarrieraddress   : re.ReplaceAllString(klaim.Tortcarrieraddress, "\\n"),
 		Tortcarrieremail    : klaim.Tortcarrieremail,
 		Dateofaccident      : klaim.Dateofaccident,
 		Tortdefendentname    : klaim.Tortdefendentname,
@@ -257,13 +259,15 @@ func (t *Subrogationcode) getPriliminaries(stub shim.ChaincodeStubInterface, arg
 var priliminary Priliminary
 json.Unmarshal(prilmAsBytes, &priliminary)
 
+re := regexp.MustCompile(`\r?\n`)
+
 prilmdata := Priliminary {
 	Claimref      : priliminary.Claimref,
 	Insuredname    : priliminary.Insuredname,
 	Policynumber    : priliminary.Policynumber,
 	Claimnumber     : priliminary.Claimnumber,
 	Tortcarriername  : priliminary.Tortcarriername,
-	Tortcarrieraddress   : priliminary.Tortcarrieraddress,
+	Tortcarrieraddress   : re.ReplaceAllString(priliminary.Tortcarrieraddress, "\\n"),
 	Tortcarrieremail    : priliminary.Tortcarrieremail,
 	Dateofaccident      : priliminary.Dateofaccident,
 	Tortdefendentname    : priliminary.Tortdefendentname,
