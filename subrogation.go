@@ -212,11 +212,7 @@ if err != nil {
 func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
 	if args[1] != "" {
-	  claimAsBytes, err := stub.GetState(args[0] + "_claim")
-		if err != nil {
-			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-		}
-		if claimAsBytes == nil {
+
 
 			str := Claim {
 				Claimref     : args[0],
@@ -245,7 +241,7 @@ func (t *Subrogationcode) reg_claim(stub shim.ChaincodeStubInterface, args []str
 			if err != nil {
 				return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 			}
-		}
+
 		return nil, nil
 	}
 
